@@ -20,11 +20,14 @@ public class XxlSsoConfig {
     @Value("${xxl.sso.redis.address}")
     private String xxlSsoRedisAddress;
 
+    @Value("${xxl.sso.redis.password}")
+    private String xxlSsoRedisPassword;
+
     @Bean
     public FilterRegistrationBean xxlSsoFilterRegistration() {
 
         // redis init
-        JedisUtil.init(xxlSsoRedisAddress);
+        JedisUtil.init(xxlSsoRedisAddress, xxlSsoRedisPassword);
 
         // filter
         FilterRegistrationBean registration = new FilterRegistrationBean();

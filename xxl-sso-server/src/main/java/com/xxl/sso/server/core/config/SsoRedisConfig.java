@@ -14,9 +14,12 @@ public class SsoRedisConfig implements InitializingBean {
     @Value("${redis.address}")
     private String redisAddress;
 
+    @Value("${redis.password}")
+    private String redisPassword;
+
     @Override
     public void afterPropertiesSet() throws Exception {
-        JedisUtil.init(redisAddress);
+        JedisUtil.init(redisAddress, redisPassword);
     }
 
 }

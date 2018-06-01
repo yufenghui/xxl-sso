@@ -29,8 +29,11 @@ public class JedisUtil {
 
 	private static final int DEFAULT_EXPIRE_TIME = 7200; // 默认过期时间,单位/秒, 60*60*2=2H, 两小时
 	private static String address;
-	public static void init(String address){
+	private static String password;
+
+	public static void init(String address, String password){
 		JedisUtil.address = address;
+		JedisUtil.password = password;
 	}
 
 	// ------------------------ ShardedJedisPool ------------------------
@@ -80,6 +83,7 @@ public class JedisUtil {
 								String host = addressInfo[0];
 								int port = Integer.valueOf(addressInfo[1]);
 								JedisShardInfo jedisShardInfo = new JedisShardInfo(host, port, 10000);
+								jedisShardInfo.setPassword(password);
 								jedisShardInfos.add(jedisShardInfo);
 							}
 							shardedJedisPool = new ShardedJedisPool(config, jedisShardInfos);
@@ -363,7 +367,7 @@ public class JedisUtil {
 	}
 
 	public static void main(String[] args) {
-		init("127.0.0.1:6379");
+		init("127.0.0.1:6379", "");
 
 		setObjectValue("key", "666");
 		System.out.println(getObjectValue("key"));
